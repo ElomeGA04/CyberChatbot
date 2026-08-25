@@ -33,6 +33,23 @@ namespace CyberChatbot
             Console.WriteLine($"\nWelcome, {handle.Name}! You can start chatting with the Cyber Chatbot now.");
 
             Console.WriteLine("Press any key to exit...");
+
+            //Name validation process
+            while(string.IsNullOrWhiteSpace(handle.Name))
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Name cannot be empty!! ");
+                Console.ResetColor();
+                Console.Write("Please enter your name: ");
+                handle.Name = Console.ReadLine();
+            }
+
+            //Personalized user greeting
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"\nWelcome, {handle.Name}! You can start chatting with the Cyber Chatbot now.");
+            Console.ResetColor();
+            Console.WriteLine("==================================================================");
+            Console.ReadLine();
             Console.ReadKey();
         }
         
