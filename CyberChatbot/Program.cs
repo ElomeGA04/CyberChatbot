@@ -9,7 +9,7 @@ namespace CyberChatbot
             AudioPlayer audio = new AudioPlayer();
             audio.PlayWelcomeMessage();
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(@"====================================================================================================================================================================================================");
             Console.WriteLine(@"                                                                                                                                                                                                      
  ,-----.         ,--.                                                    ,--.  ,--.                 ,---.                                                                    ,-----.           ,--.   
@@ -36,7 +36,7 @@ namespace CyberChatbot
             //Name validation process
             while (string.IsNullOrWhiteSpace(handle.Name))
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Name cannot be empty!! ");
                 Console.ResetColor();
                 Console.Write("Please enter your name: ");
@@ -44,15 +44,18 @@ namespace CyberChatbot
             }
 
             //Personalized user greeting
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine($"\nWelcome, {handle.Name}! You can start chatting with the Cyber Chatbot now.");
             Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("==================================================================");
+            Console.ResetColor();
 
             string question;
             do
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Ask a question or type 'exit': What can I ask you about");
                 Console.ResetColor();
 
@@ -60,13 +63,13 @@ namespace CyberChatbot
 
                 if (question == "exit")
                 {
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Goodbye! Stay safe online.");
                     Console.ResetColor();
 
                     break;
                 }
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.Write("\nChatbot: ");
                     //Typing effect
                 var writer = new System.IO.StringWriter();
@@ -85,22 +88,28 @@ namespace CyberChatbot
                 Console.WriteLine();
                 Console.ResetColor();
 
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine("==================================================================");
                 Console.ResetColor();
 
+                Console.WriteLine();
             }
+
             while (question != "exit");
 
             Console.WriteLine();
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine($"Thank you for chatting with me, {handle.Name}!");
             Console.WriteLine("Remember: Stay safe, Stay secure, Stay smart");
+            Console.WriteLine();
             Console.WriteLine("Goodbye!");
 
             Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("==================================================================");
+            Console.ResetColor();
 
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
