@@ -1,7 +1,8 @@
 ﻿using System;
 namespace CyberChatbot
-{
-    internal class  Program
+{ 
+
+    internal class Program
     {
         static void Main()
         {
@@ -28,11 +29,9 @@ namespace CyberChatbot
 
             ResponseHandler handle = new ResponseHandler();
 
-            Console.WriteLine($"Please enter your name: ");
+            Console.Write($"Please enter your name: ");
             handle.Name = Console.ReadLine();
-            //Console.WriteLine($"\nWelcome, {handle.Name}! You can start chatting with the Cyber Chatbot now.");
 
-            //Console.WriteLine("Press any key to exit...");
 
             //Name validation process
             while (string.IsNullOrWhiteSpace(handle.Name))
@@ -49,15 +48,14 @@ namespace CyberChatbot
             Console.WriteLine($"\nWelcome, {handle.Name}! You can start chatting with the Cyber Chatbot now.");
             Console.ResetColor();
             Console.WriteLine("==================================================================");
-            Console.ReadLine();
 
             string question;
             do
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Ask a question or type 'exit': What can I ask you about");
-
                 Console.ResetColor();
+
                 question = Console.ReadLine().ToLower().Trim();
 
                 if (question == "exit")
@@ -70,8 +68,21 @@ namespace CyberChatbot
                 }
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("\nChatbot: ");
-                Console.WriteLine();
+                    //Typing effect
+                var writer = new System.IO.StringWriter();
+                var orig = Console.Out;
+                Console.SetOut(writer);
                 handle.GetResponse(question);
+                Console.SetOut(orig);
+                string text = writer.ToString();
+
+                foreach (char c in text)
+                {
+                    Console.Write(c);
+                    System.Threading.Thread.Sleep(20);
+                }
+
+                Console.WriteLine();
                 Console.ResetColor();
 
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -94,6 +105,6 @@ namespace CyberChatbot
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
-        
+
     }
 }
