@@ -38,7 +38,7 @@ Graceful exit:
 Typing in 'exit' ends the chat with a personalized goodbye message.
 
 # Requirements
-- .NET SDK 6.0 or higher
+- .NET SDK 10.0 or higher
 - Visual Studio 2022/2026 or any C# IDE
 - Windows OS (for audio playback support)
 - Git (for version control)
