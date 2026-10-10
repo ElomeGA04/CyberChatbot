@@ -11,7 +11,7 @@
 
  # Features
 Voice greeting:
-Plays a recorded WAV audio message (greeting.wav) welcoming the user when the application launches.
+Plays a recorded WAV audio message (CyberWelcome.wav) welcoming the user when the application launches.
 
 ASCII Art Image:
 Displays a "Cybersecurity Awareness Bot" ASCII art title screen (The console window must be zoomed in/ minimized to see the full ASCII art properly.)
