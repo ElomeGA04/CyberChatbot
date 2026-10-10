@@ -71,6 +71,7 @@ namespace CyberChatbot
                 }
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.Write("\nChatbot: ");
+
                     //Typing effect
                 var writer = new System.IO.StringWriter();
                 var orig = Console.Out;

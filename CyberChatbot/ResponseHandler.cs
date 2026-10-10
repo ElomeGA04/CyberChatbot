@@ -10,7 +10,7 @@ namespace CyberChatbot
 
         public void GetResponse(string userInput)
         {
-            string question = userInput.ToLower().Trim();
+            string question = userInput.ToUpper().ToLower().Trim();
 
             if (question == "exit")
             {
@@ -42,7 +42,7 @@ namespace CyberChatbot
             }
             else
             {
-                Console.WriteLine("I didnt quite understand that. Could you  rephrase");
+                Console.WriteLine("I didn't quite understand that. Could you rephrase");
             }
         }
     }
