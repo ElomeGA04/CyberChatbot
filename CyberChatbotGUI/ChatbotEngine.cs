@@ -90,7 +90,46 @@ namespace CyberChatbotGUI
                 return $"I am doing well {UserName}, and ready to help you stay safe online.";
 
             }
+            if (question.Contains("purpose"))
+            {
+                return $"My purpose is to assist you with cyber safety information and guidance, {UserName}.";
 
+            }
+            if(question.Contains("what can i ask you") || question.Contains("topic"))
+            {
+                return $"{UserName}, you can ask about passwords, phishing, safe browsing, scams, or privacy.";
+            }
+
+            if(question.Contains("interested in") || question.Contains("i like"))
+            {
+                foreach(var topic in _topicResponses.Keys)
+                {
+                    if (question.Contains(topic))
+                    {
+                        FavouriteTopic = topic;
+                        _lastTopic = topic;
+                        return $"Great! I'll remember that you are interested in {topic}. It's a crucial part of staying safe online.";
+                    }
+                }
+            }
+
+            foreach(var topic in _topicResponses.Keys)
+            {
+                if(question.Contains(topic))
+                {
+                    _lastTopic = topic;
+                    return $"{UserName}, {GetRandomResponse(topic)}";
+                }
+            }
+
+            return $"Sorry {UserName}, I didn't quite understand that.Could you rephrase it?";
+
+        }
+
+        private string GetRandomResponse(string topic)
+        {
+            List<string> responses = _topicResponses[topic];
+            return responses[_random.Next(responses.Count)];
 
 
         }
