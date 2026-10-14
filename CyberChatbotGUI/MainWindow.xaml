@@ -29,8 +29,7 @@
                                FontWeight="Bold"
                                FontSize="10"
                                TextAlignment="Center"
-                               xml:space="preserve">
-                    </TextBlock>
+                               xml:space="preserve"/>
                 </Viewbox>
 
                 <TextBlock Text="Your personal Cyber Safety Assistant"

@@ -22,6 +22,7 @@ namespace CyberChatbotGUI
     {
         private readonly ChatbotEngine _engine = new ChatbotEngine();
         private bool _nameCaptured = false;
+        private string _userName = "";
         private const string DIV = "==========================================================";
 
         public MainWindow()
@@ -64,13 +65,13 @@ namespace CyberChatbotGUI
 
         private void ShowInitialWelcome()
         {
-            AddBotMessage("Chat", DIV);
-            AddBotMessage("Chat", "WELCOME TO THE CYBERSECURITY CHATBOT SYSTEM");
-            AddBotMessage("Chat", DIV);
-            AddBotMessage("Chat", "Please enter your name: ");
+            AddBotMessage( DIV);
+            AddBotMessage("WELCOME TO THE CYBERSECURITY CHATBOT SYSTEM");
+            AddBotMessage(DIV);
+            AddBotMessage( "Please enter your name: ");
         }
 
-        private void SendButton_Click(object sender, RoutedEventArgs e)
+        private void UserInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -80,7 +81,8 @@ namespace CyberChatbotGUI
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            ProcessUserInput();
+                ProcessUserInput();
+            
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -125,10 +127,10 @@ namespace CyberChatbotGUI
 
         private void AddUserMessage(string message)
         {
-            AddChatBubble("YOU", message, "4FC3F7", HorizontalAlignment.Right);
+            AddChatBubble("YOU", message, "#4FC3F7", HorizontalAlignment.Right);
         }
 
-        private void AddChatBubble(string sender, string message, string accentColor, HorizontalAlignment)
+        private void AddChatBubble(string sender, string message, string accentColor, HorizontalAlignment alignment)
         {
             var container = new Border
             {
