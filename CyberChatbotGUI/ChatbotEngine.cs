@@ -27,9 +27,11 @@ namespace CyberChatbotGUI
             {
                 {"password", new List<string>
                     {
-                        "Use strong, unique passwords for each account and consider using a password manager.",
-                        "Never reuse passwords across different sites, if one gets breached, they all do.",
-                        "Combine upper and lower case letters, numbers, and symbols to strengthen your passwords."
+                        "Treat passwords like keys to different doors: If someone copies the key to your email, " +
+                        "they can unlock everything linked to it. Unique passwords mean a breach on one site never compromizes the other. " +
+                        "A password manager can generate and remember them all, you only need to secure one master password.",
+                        "Length beats complexity. A 16-character passphrase like 'BlueRiverCoffeeTable@7' is far stronger than 'P@ssw0rd' and much easier to remember. Aim for at least 12 characters mixing case, numbers, and symbols.",
+
                     }
                 },
                 {"phishing", new List<string>
