@@ -7,7 +7,7 @@
         Background="#1E1E1E"
         WindowStartupLocation="CenterScreen"
         FontFamily="Segoe UI">
-    
+
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -38,7 +38,7 @@
                            HorizontalAlignment="Center"
                            Margin="0,8,0,0"/>
             </StackPanel>
-            
+
         </Border>
 
         <Border Grid.Row="1"
@@ -52,55 +52,49 @@
                 <StackPanel x:Name="ChatStackPanel"/>
 
             </ScrollViewer>
-            
+
         </Border>
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBox x:Name="UserInputBox"
-                     Grid.Column="0"
-                     Height="45"
-                     FontSize="14"
-                     VerticalContentAlignment="Center"
-                     Padding="12"
-                     Background="#3D3D3D"
-                     Foreground="White"
-                     CaretBrush="#ff6B6B"
-                     BorderBrush="#ff6B6B"
-                     BorderThickness="2"
-                     KeyDown="UserInputBox_KeyDown"/>
-            <Button x:Name="SendButton"
-                    Grid.Column="2"
-                    Content="SEND"
-                    Height="45"
-                    Width="100"
-                    Margin="10,0,200,0"
-                    FontWeight="Bold"
-                    FontSize="14"
-                    Background="#ff6B6B"
-                    Foreground="White"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="SendButton_Click"/>
+        <DockPanel Grid.Row="2" LastChildFill="True">
             <Button x:Name="ExitButton"
-                    Grid.Column="2"
-                    Content="EXIT"
-                    Height="45"
-                    Width="100"
-                    Margin="10,0,0,0"
-                    FontWeight="Bold"
-                    FontSize="14"
-                    Background="#444444"
-                    Foreground="White"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="ExitButton_Click"/>
-        </Grid>
-
+                        DockPanel.Dock="Right"
+                        Content="EXIT"
+                        Height="45" 
+                        Width="80" 
+                        Margin="10,0,0,0"
+                        FontWeight="Bold" 
+                        FontSize="13"
+                        Background="#444444" 
+                        Foreground="White"
+                        BorderThickness="0" 
+                        Cursor="Hand"
+                        Click="ExitButton_Click"/>
+            <Button x:Name="SendButton"
+                        DockPanel.Dock="Right"
+                        Content="SEND"
+                        Height="45" 
+                        Width="100" 
+                        Margin="10,0,0,0"
+                        FontWeight="Bold" 
+                        FontSize="13"
+                        Background="#FF6B6B" 
+                        Foreground="White"
+                        BorderThickness="0" 
+                        Cursor="Hand"
+                        Click="SendButton_Click"/>
+            <TextBox x:Name="UserInputBox"
+                         Height="45" 
+                         FontSize="14"
+                         VerticalContentAlignment="Center"
+                         Padding="12,0"
+                         Background="#3D3D3D" 
+                         Foreground="White"
+                         CaretBrush="#FF6B6B"
+                         BorderBrush="#FF6B6B" 
+                         BorderThickness="2"
+                         KeyDown="UserInputBox_KeyDown"/>
+        </DockPanel>
     </Grid>
 </Window>
+
+    

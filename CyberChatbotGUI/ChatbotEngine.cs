@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
 
 namespace CyberChatbotGUI
 {
@@ -37,7 +35,7 @@ namespace CyberChatbotGUI
                 {"phishing", new List<string>
                     {
                         "Be cautious of suspicious emails asking for personal information. Verify the sender before clicking any links.",
-                        "Phishing emails often mimic trusted organazations. Check the email address carefully before responding.",
+                        "Phishing emails often mimic trusted organizations. Check the email address carefully before responding.",
                         "Never enter sensitive information on websites you reached through email links. Always navigate directly to the site.",
 
                     }
@@ -54,7 +52,7 @@ namespace CyberChatbotGUI
                     {
                         "If an offer sounds too good to be true, it probably is. Scammers rely on urgency to make you act fast.",
                         "Never send money or gift cards to someone you have not met in person or simply people you do not know.",
-                        "If you suspect a scam, report it to your bank and the relevent authorities immediately."
+                        "If you suspect a scam, report it to your bank and the relevant authorities immediately."
                     }
                 },
                 {"privacy", new List<string>
@@ -71,14 +69,17 @@ namespace CyberChatbotGUI
         {
             string question = userInput.ToLower().Trim();
 
-            if(question.Contains("tell me more") ||
+            string sentiment = DetectSentiment(question);
+            string prefix = GetSentimentPrefix(sentiment);
+
+            if (question.Contains("tell me more") ||
                question.Contains("explain more") ||
                question.Contains("another tip") ||
                question.Contains("more info"))
             {
                 if (!string.IsNullOrEmpty(_lastTopic))
                 {
-                    return GetRandomResponse(_lastTopic);
+                    return prefix + GetRandomResponse(_lastTopic);
                 }
                 else
                 {
@@ -86,9 +87,9 @@ namespace CyberChatbotGUI
                 }
             }
 
-            if(question.Contains("how are you"))
+            if (question.Contains("how are you"))
             {
-                return $"I am doing well {UserName}, and ready to help you stay safe online.";
+                return prefix + $"I am doing well {UserName}, and ready to help you stay safe online.";
 
             }
             if (question.Contains("purpose"))
@@ -96,14 +97,27 @@ namespace CyberChatbotGUI
                 return $"My purpose is to assist you with cyber safety information and guidance, {UserName}.";
 
             }
-            if(question.Contains("what can i ask you") || question.Contains("topic"))
+            if (question.Contains("what can i ask you") || question.Contains("topic"))
             {
                 return $"{UserName}, you can ask about passwords, phishing, safe browsing, scams, or privacy.";
             }
 
-            if(question.Contains("interested in") || question.Contains("i like"))
+            if(question.Contains("what is my name") || question.Contains("who am i") || question.Contains("my name"))
             {
-                foreach(var topic in _topicResponses.Keys)
+                return $"Your name is {UserName} of course.";
+            }
+
+            if(question.Contains("what am i interested in") || question.Contains("what do i like") || 
+                question.Contains("my favourite") || question.Contains("what do you remember"))
+            {
+                if (!string.IsNullOrEmpty(FavouriteTopic))
+                    return $"You are interested in {FavouriteTopic}, {UserName}. I will keep that in mind when I give you tips.";
+                return $"You haven't told me your favourite topic yet. Try saying 'I'm interested in privacy'.";
+            }
+
+            if (question.Contains("interested in") || question.Contains("i like"))
+            {
+                foreach (var topic in _topicResponses.Keys)
                 {
                     if (question.Contains(topic))
                     {
@@ -114,29 +128,35 @@ namespace CyberChatbotGUI
                 }
             }
 
-            foreach(var topic in _topicResponses.Keys)
+            foreach (var topic in _topicResponses.Keys)
             {
-                if(question.Contains(topic))
+                if (question.Contains(topic))
                 {
-                    FavouriteTopic = topic;
                     _lastTopic = topic;
-                    return $"{UserName}, {GetRandomResponse(topic)}";
+                    return prefix + $"{UserName}, {GetRandomResponse(topic)}";
                 }
             }
 
-            if(!string.IsNullOrEmpty(FavouriteTopic) && 
-                (question.Contains("tip") || 
-                question.Contains("advice") || 
+            if (!string.IsNullOrEmpty(FavouriteTopic) &&
+                (question.Contains("tip") ||
+                question.Contains("advice") ||
                 question.Contains("help")))
             {
                 return $"As someone interested in {FavouriteTopic}, " +
                     $"here is a tip: {GetRandomResponse(FavouriteTopic)}";
             }
 
-            return $"Sorry {UserName}, I didn't quite understand that.Could you rephrase it?";
+            if(sentiment != "neutral")
+            {
+                var topics = new List<string>(_topicResponses.Keys);
+                string randomTopic = topics[_random.Next(topics.Count)];
+                _lastTopic = randomTopic;
+                return prefix + $"Here is a tip about {randomTopic}: {GetRandomResponse(randomTopic)}";
+            }
+
+            return $"Sorry {UserName}, I didn't quite understand that. Could you rephrase it? Try asking about passwords, phishing, safe browsing, scam, or privacy.";
 
         }
-
         private string DetectSentiment(string input)
         {
             if (input.Contains("worried") || input.Contains("scared") ||
@@ -146,8 +166,7 @@ namespace CyberChatbotGUI
                 return "worried";
             }
 
-            if (input.Contains("curious") || input.Contains("wondering") ||
-                input.Contains("interested") || input.Contains("curious about"))
+            if (input.Contains("curious") || input.Contains("wondering")) 
                 
             {
                 return "curious";

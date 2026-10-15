@@ -1,14 +1,9 @@
-﻿using System.Text;
+﻿using System;
 using System.Windows;
 using System.Media;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CyberChatbotGUI
 {
@@ -22,17 +17,14 @@ namespace CyberChatbotGUI
     {
         private readonly ChatbotEngine _engine = new ChatbotEngine();
         private bool _nameCaptured = false;
-        private string _userName = "";
+        
         private const string DIV = "==========================================================";
 
         public MainWindow()
         {
             InitializeComponent();
-
             LoadAsciiArt();
-
             PlayVoiceGreeting();
-
             ShowInitialWelcome();
         }
 
@@ -65,7 +57,6 @@ namespace CyberChatbotGUI
 
         private void ShowInitialWelcome()
         {
-            AddBotMessage( DIV);
             AddBotMessage("WELCOME TO THE CYBERSECURITY CHATBOT SYSTEM");
             AddBotMessage(DIV);
             AddBotMessage( "Please enter your name: ");
