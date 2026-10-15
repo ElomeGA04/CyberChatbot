@@ -11,7 +11,7 @@
 
  # Features
 Voice greeting:
-Plays a recorded WAV audio message (greeting.wav) welcoming the user when the application launches.
+Plays a recorded WAV audio message (CyberWelcome.wav) welcoming the user when the application launches.
 
 ASCII Art Image:
 Displays a "Cybersecurity Awareness Bot" ASCII art title screen (The console window must be zoomed in/ minimized to see the full ASCII art properly.)
@@ -38,7 +38,7 @@ Graceful exit:
 Typing in 'exit' ends the chat with a personalized goodbye message.
 
 # Requirements
-- .NET SDK 6.0 or higher
+- .NET SDK 10.0 or higher
 - Visual Studio 2022/2026 or any C# IDE
 - Windows OS (for audio playback support)
 - Git (for version control)
