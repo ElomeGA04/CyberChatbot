@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Text;
 
 namespace CyberChatbotGUI
@@ -117,13 +118,65 @@ namespace CyberChatbotGUI
             {
                 if(question.Contains(topic))
                 {
+                    FavouriteTopic = topic;
                     _lastTopic = topic;
                     return $"{UserName}, {GetRandomResponse(topic)}";
                 }
             }
 
+            if(!string.IsNullOrEmpty(FavouriteTopic) && 
+                (question.Contains("tip") || 
+                question.Contains("advice") || 
+                question.Contains("help")))
+            {
+                return $"As someone interested in {FavouriteTopic}, " +
+                    $"here is a tip: {GetRandomResponse(FavouriteTopic)}";
+            }
+
             return $"Sorry {UserName}, I didn't quite understand that.Could you rephrase it?";
 
+        }
+
+        private string DetectSentiment(string input)
+        {
+            if (input.Contains("worried") || input.Contains("scared") ||
+                input.Contains("nervous") || input.Contains("anxious") ||
+                input.Contains("afraid"))
+            {
+                return "worried";
+            }
+
+            if (input.Contains("curious") || input.Contains("wondering") ||
+                input.Contains("interested") || input.Contains("curious about"))
+                
+            {
+                return "curious";
+            }
+
+            if (input.Contains("frustrated") || input.Contains("annoyed") ||
+                input.Contains("confused") || input.Contains("angry") ||
+                input.Contains("stressed"))
+            {
+                return "frustrated";
+            }
+
+            return "neutral";
+        }
+
+        private string GetSentimentPrefix(string sentiment)
+        {
+            switch (sentiment)
+            {
+                case "worried":
+                    return "It's understandable to feel that way. Scammers can be very convincing.";
+                case "curious":
+                    return "That's a great question! Here is some helpful information.";
+                case "frustrated":
+                    return "I understand your frustration. Let's take this one step at a time.";
+                default:
+                    return "";
+
+            }
         }
 
         private string GetRandomResponse(string topic)
