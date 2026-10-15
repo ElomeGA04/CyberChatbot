@@ -10,21 +10,28 @@ namespace CyberChatbotGUI
     internal class ChatbotEngine
     {
 
-        ///Memory 
+        ///MEMORY: Stores information the user shares during the conversation
+        ///The user's name, captured on first input.
         public string UserName { get; set; } = "";
+
+        /// The topic the user said they are interested in.
         public string FavouriteTopic { get; set; } = "";
+
+        /// Most recently discussed topic, used for 'tell me more'.
         private string _lastTopic = "";
 
+
+        ///RESPONSE DATA
         ///Random response generator
         private readonly Dictionary<string, List<string>> _topicResponses;
 
         ///Generator
         private readonly Random _random = new Random();
-        //Sentiment response lists
-        private readonly Dictionary<string, List<string>> _sentimentResponses;
 
+        /// Initializes the topic and sentiment response dictionaries.
         public ChatbotEngine()
         {
+            ///CYBERSECURITY TOPIC RESPONSES
             _topicResponses = new Dictionary<string, List<string>>()
             {
                 {"password", new List<string>
@@ -76,13 +83,19 @@ namespace CyberChatbotGUI
             };
         }
 
+        /// MAIN ENTRY POINT
+        /// Processes the user's input and returns an appropriate reply.
         public string GetResponse(string userInput)
         {
+            ///Normalizes input: lovercase + trim for case- insensitive matching
             string question = userInput.ToLower().Trim();
 
+            ///Detects emotional tone and build a tonal prefix for the reply
             string sentiment = DetectSentiment(question);
             string prefix = GetSentimentPrefix(sentiment);
 
+            /// CONVERSATIONAL FLOW: "tell me more"
+            /// Continue th eprevious topic instead of starting a new one.
             if (question.Contains("tell me more") ||
                question.Contains("explain more") ||
                question.Contains("another tip") ||
@@ -98,6 +111,7 @@ namespace CyberChatbotGUI
                 }
             }
 
+            ///GENERAL CONVERSATION
             if (question.Contains("how are you"))
             {
                 return prefix + $"I am doing well {UserName}, and ready to help you stay safe online.";
@@ -113,11 +127,13 @@ namespace CyberChatbotGUI
                 return $"{UserName}, you can ask about passwords, phishing, safe browsing, scams, or privacy.";
             }
 
+            ///MEMORY RECALL: user asks for their name
             if(question.Contains("what is my name") || question.Contains("who am i") || question.Contains("my name"))
             {
                 return $"Your name is {UserName} of course.";
             }
 
+            ///MEMORY RECALL: user asks about their interest
             if(question.Contains("what am i interested in") || question.Contains("what do i like") || 
                 question.Contains("my favourite") || question.Contains("what do you remember"))
             {
@@ -126,6 +142,7 @@ namespace CyberChatbotGUI
                 return $"You haven't told me your favourite topic yet. Try saying 'I'm interested in privacy'.";
             }
 
+            ///MEMORY STORE: user expresses interest in a topic
             if (question.Contains("interested in") || question.Contains("i like"))
             {
                 foreach (var topic in _topicResponses.Keys)
@@ -139,6 +156,8 @@ namespace CyberChatbotGUI
                 }
             }
 
+            ///KEYWORD RECOGNITION
+            ///Scan the dictionary keys and match the first keyword found.
             foreach (var topic in _topicResponses.Keys)
             {
                 if (question.Contains(topic))
@@ -148,6 +167,7 @@ namespace CyberChatbotGUI
                 }
             }
 
+            ///MEMORY-BASED TIP (user asked for help or advice)
             if (!string.IsNullOrEmpty(FavouriteTopic) &&
                 (question.Contains("tip") ||
                 question.Contains("advice") ||
@@ -157,6 +177,8 @@ namespace CyberChatbotGUI
                     $"here is a tip: {GetRandomResponse(FavouriteTopic)}";
             }
 
+            ///SENTIMENT-ONLY REPLY
+            ///User expressed emotion but no topic, auto-share a random tip.
             if(sentiment != "neutral")
             {
                 var topics = new List<string>(_topicResponses.Keys);
@@ -165,11 +187,17 @@ namespace CyberChatbotGUI
                 return prefix + $"Here is a tip about {randomTopic}: {GetRandomResponse(randomTopic)}";
             }
 
+            ///FALLBACK
             return $"Sorry {UserName}, I didn't quite understand that. Could you rephrase it? Try asking about passwords, phishing, safe browsing, scam, or privacy.";
 
         }
+
+        /// HELPER METHODS
+        /// Scans the user's input for emotional keywords and 
+        /// returns the detected mood: "worried", "curious", "frustrated", or "neutral".
         private string DetectSentiment(string input)
         {
+            ///Worried: fear, anxienty, unease
             if (input.Contains("worried") || input.Contains("scared") ||
                 input.Contains("nervous") || input.Contains("anxious") ||
                 input.Contains("afraid"))
@@ -177,12 +205,14 @@ namespace CyberChatbotGUI
                 return "worried";
             }
 
+            ///Curious: interest, questioning
             if (input.Contains("curious") || input.Contains("wondering")) 
                 
             {
                 return "curious";
             }
 
+            ///Frustrated: annoyance, confusion, stress
             if (input.Contains("frustrated") || input.Contains("annoyed") ||
                 input.Contains("confused") || input.Contains("angry") ||
                 input.Contains("stressed"))
@@ -193,6 +223,9 @@ namespace CyberChatbotGUI
             return "neutral";
         }
 
+        /// SENTIMENT RESPONSES
+        /// Multiple empathetic prefixes per mood produce natural variation
+        
         private string GetSentimentPrefix(string sentiment)
         {
             switch (sentiment)
@@ -209,6 +242,7 @@ namespace CyberChatbotGUI
             }
         }
 
+        /// Returns a random response from the given topic's list.
         private string GetRandomResponse(string topic)
         {
             List<string> responses = _topicResponses[topic];
