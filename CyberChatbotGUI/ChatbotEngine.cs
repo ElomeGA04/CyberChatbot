@@ -20,6 +20,8 @@ namespace CyberChatbotGUI
 
         ///Generator
         private readonly Random _random = new Random();
+        //Sentiment response lists
+        private readonly Dictionary<string, List<string>> _sentimentResponses;
 
         public ChatbotEngine()
         {
@@ -27,41 +29,48 @@ namespace CyberChatbotGUI
             {
                 {"password", new List<string>
                     {
-                        "Treat passwords like keys to different doors: If someone copies the key to your email, " +
-                        "they can unlock everything linked to it. Unique passwords mean a breach on one site never compromizes the other. " +
-                        "A password manager can generate and remember them all, you only need to secure one master password.",
+                        "Treat passwords like keys to different doors: If someone copies the key to your email, they can unlock everything linked to it. Unique passwords mean a breach on one site never compromizes the other. A password manager can generate and remember them all, you only need to secure one master password.",
                         "Length beats complexity. A 16-character passphrase like 'BlueRiverCoffeeTable@7' is far stronger than 'P@ssw0rd' and much easier to remember. Aim for at least 12 characters mixing case, numbers, and symbols.",
+                        "Enable two-factor authentication (2FA) wherever it is offered. Even if an attacker steals your password, they still need the second factor, usually a code from your phone to log in. This single step blocks the vast majority of account takeovers.",
+                        "Watch out for password reuse across your email, banking, and social media. Cybercriminals buy leaked credential lists and try them everywhere (credential stuffing). If one match works, they drain accounts. Use a unique password for each of these critical services at minimum.",
+                        "Never share your password via email, SMS, or chat even if the request appears to come from someone you trust. Legitimate companies never ask for your password. If you suspect an account is compromised, change the password immediately and enable 2FA."
 
                     }
                 },
                 {"phishing", new List<string>
                     {
-                        "Be cautious of suspicious emails asking for personal information. Verify the sender before clicking any links.",
-                        "Phishing emails often mimic trusted organizations. Check the email address carefully before responding.",
-                        "Never enter sensitive information on websites you reached through email links. Always navigate directly to the site.",
+                        "Phishing works by impersonation. Attackers mimic your bank, courier, or employer to trick you into clicking a link or handing over credentials. Before acting, hover over the link to reveal the real URL, if it does not match the official domain exactly, do not click.",
+                        "Red flags to watch for: urgent language ('Your account will be closed in 24 hours'), generic greetings ('Dear Customer'), mismatched sender addresses, and unexpected attachments. Real organisations do not pressure you via email, they use secure portals.",
+                        "If you receive a suspicious email, do not reply, click links, or open attachments. Report it as phishing in your email client, then delete it. Reporting helps your provider block the same attack for others.",
+                        "Smishing (SMS phishing) and vishing (voice phishing) are on the rise. A text claiming your parcel is 'held at customs' or a call from 'Microsoft support' about a virus is almost always fake. Hang up and call the organization back using a number you look up yourself.",
+                        "Even one click can be costly. If you clicked a phishing link, immediately change the passwords for any accounts you entered credentials into, enable 2FA, and check your bank statements for unusual activity. Time is critical, act within minutes."
 
                     }
                 },
                 {"safe browsing", new List<string>
                     {
-                        "Use secure websites (https), avoid clicking on unknown links, and keep your browser updated.",
-                        "Install a reputable ad-blocker to reduce exposure to malicious ads.",
-                        "Avoid using public WiFi for sensitive tasks unless you are on a VPN."
+                        "Look for the padlock icon and 'https://' in the address bar before entering any personal details. The 's' stands for secure, it encrypts traffic between your browser and the site. Never enter card details on a site that only uses 'http://'.",
+                        "Public Wi-Fi in cafes, airports, and hotels is convenient but risky, anyone on the same network can potentially intercept your traffic. Use a reputable VPN, or stick to mobile data, when logging into banking or email.",
+                        "Keep your browser and operating system updated. Most successful attacks exploit known vulnerabilities that were patched months ago. Enable automatic updates so you are never running outdated software.",
+                        "Install an ad-blocker and a reputable antivirus. Malicious ads (malvertising) can infect your device even without clicking, they exploit flaws in ad networks. Blocking ads closes a common infection route.",
+                        "Think before you click. Hover over links to preview the destination, avoid pop-ups claiming your device is infected, and never download software from unofficial sources. If a site pressures you to install something, close the tab."
                     }
 
                 },
                 {"scam", new List<string>
                     {
-                        "If an offer sounds too good to be true, it probably is. Scammers rely on urgency to make you act fast.",
-                        "Never send money or gift cards to someone you have not met in person or simply people you do not know.",
-                        "If you suspect a scam, report it to your bank and the relevant authorities immediately."
+                        "If an offer sounds too good to be true, it is. Scams rely on urgency and emotion, a lottery you never entered, an investment that doubles your money, a refund you were not expecting. Pause, verify independently, and never act in the moment.",
+                        "Tech support scams start with a pop-up or cold call claiming your computer is infected. Real companies like Microsoft never call you out of the blue. Hang up, close the pop-up, and run your own antivirus scan.",
+                        "Investment scams promise guaranteed returns, a red flag in itself, since all investments carry risk. Check that any advisor is registered with your country's financial regulator before handing over money. If they pressure you to act fast, walk away.",
+                        "If you suspect a scam, report it to your bank, your country's fraud reporting service, and the platform where it occurred. Reporting helps protect others, and banks can sometimes recover funds if you act quickly."
                     }
                 },
                 {"privacy", new List<string>
                     {
-                        "Review your social media privacy settings regularly to control who sees your data.",
-                        "Use a VPN on public WiFi to protect your browsing from eavesdroppers.",
-                        "Be mindful of what personal information you share online, once it is out there, it's hard to remove."
+                        "Your digital footprint lasts longer than you think. Review your social media privacy settings every few months, set posts to 'friends only', disable location tagging, and remove old accounts you no longer use. Data you share today can surface years later.",
+                        "Read privacy policies, at least the summary. Look for what data an app collects, who it shares it with, and whether it sells it to third parties. If an app asks for permissions it does not need (a torch app asking for contacts), deny them.",
+                        "Use a VPN on public Wi-Fi to encrypt your browsing from eavesdroppers on the same network. Free VPNs often sell your data, pay for a reputable one, or use your mobile hotspot instead.",
+                        "Be cautious with 'Sign in with Google/Facebook' buttons. They are convenient but give the third-party app access to your profile data and sometimes your contacts. Use a unique email for sign-ups where possible.",
                     }
                 }
             };
@@ -189,11 +198,11 @@ namespace CyberChatbotGUI
             switch (sentiment)
             {
                 case "worried":
-                    return "It's understandable to feel that way. Scammers can be very convincing.";
+                    return "It's completely understandable to feel that way, cyber threats are real and can be intimidating. Let me share something practical to help you feel more in control. You're not alone in feeling concerned. Millions of people face these threats every day, and the good news is that the right precautions make a huge difference. Here is a tip that can help.";
                 case "curious":
                     return "That's a great question! Here is some helpful information.";
                 case "frustrated":
-                    return "I understand your frustration. Let's take this one step at a time.";
+                    return "I understand the frustration — cybersecurity can feel overwhelming when you're just trying to get things done. Technology shouldn't make life harder, and these tips are designed to be quick and easy. Let's take it one step at a time with something simple.";
                 default:
                     return "";
 
