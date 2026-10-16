@@ -93,6 +93,7 @@ namespace CyberChatbotGUI
             ///Detects emotional tone and build a tonal prefix for the reply
             string sentiment = DetectSentiment(question);
             string prefix = GetSentimentPrefix(sentiment);
+            if (prefix != "") prefix += "\n\n";
 
             /// CONVERSATIONAL FLOW: "tell me more"
             /// Continue th eprevious topic instead of starting a new one.
@@ -235,7 +236,7 @@ namespace CyberChatbotGUI
                 case "curious":
                     return "That's a great question! Here is some helpful information.";
                 case "frustrated":
-                    return "I understand the frustration — cybersecurity can feel overwhelming when you're just trying to get things done. Technology shouldn't make life harder, and these tips are designed to be quick and easy. Let's take it one step at a time with something simple.";
+                    return "I understand your frustration cybersecurity can feel overwhelming when you're just trying to get things done. Technology shouldn't make life harder, and these tips are designed to be quick and easy. Let's take it one step at a time with something simple.";
                 default:
                     return "";
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Media;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -18,6 +17,8 @@ namespace CyberChatbotGUI
         /// FIELDS
         /// The chatbots's brain: Handles all response logic.
         private readonly ChatbotEngine _engine = new ChatbotEngine();
+
+        private readonly AudioPlayer _audio = new AudioPlayer();
         
         /// True once the user has entered their name.
         private bool _nameCaptured = false;
@@ -59,8 +60,7 @@ namespace CyberChatbotGUI
         {
             try
             {
-                SoundPlayer player = new SoundPlayer("CyberWelcome.wav");
-                player.Play();
+                _audio.PlayGreeting();
             }
             catch (Exception ex)
             {
@@ -122,7 +122,7 @@ namespace CyberChatbotGUI
             {
                 _engine.UserName = input;
                 _nameCaptured = true;
-                AddBotMessage($"Nice to meet you, {_engine.UserName}! You can start asking questions about passwords, phishing, or safe browsing. Type 'exit' to close.");
+                AddBotMessage($"Nice to meet you, {_engine.UserName}! You can start asking questions about passwords, phishing, safe browsing, scams, or privacy. Type 'exit' to close.");
                 return;
             }
             
