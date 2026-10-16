@@ -134,6 +134,123 @@ The presentation demonstrates:
 5. CI pipeline setup and successful run using Github Actions
 6. Application functionality showcasing the chatbot's responses to various cybersecurity topics
 
+#CyberChatbot: Cybersecurity Awareness Bot (Part 2)
+A WPF GUI chatbot built in C# that educates users of cybersecurity awareness. The application detects user sentiment, remembers details shared during conversation, provides random responses per topic, and maintains natural conversational flow.
+
+#Overview
+The Cybersecurity Awareness Bot is a console and GUI application that helps users learn how to stay safe online. Part 2 extends the Part 1 console chatbot with a graphical user interface built using Windows Presentation Foundation (WPF), and adds advanced features including sentiment detection, memory recall, random response selection, and conversational flow.
+The chatbot covers five cybersecurity topics:
+1. Password safety
+2. Phishing
+3. Safe browsing
+4. Scams
+5. Privacy
+
+#Features
+1. Graphical User Interface (GUI) - Dark-themed WPF window with colored chat bubbles for users and bot messages
+2. Sentiment detection - Detects worried, curious, and frustrated tones and adjusts responses with empathy
+3. Memory and recall - Remembers the user's name and favourite topic, then refers back to them during later conversation
+4. Random responses - Three or more detailed responses per topic, excluding Sentiments (which contains one response per sentiment), selected at random for variety
+5. Conversational flow - Commands such as "tell me more" and "explain more" continue the previous topic without restarting
+6. Keyword recognition - Matches user input against a dictionary of cybesecurity topics
+7. Error handling - Provides a helpful fallback message for unrecognized input without crashing
+8. Voice greeting - Plays the recorded welcome message when the application starts
+
+#Project Structure
+CyberChatbot/
+	---CyberChatbot/						**Part 1 - Console application
+		---Program.cs
+		---ResponseHandler.cs
+		---AudioPlayer.cs
+		---CyberChatbot.csproj
+		---CyberWelcome.wav
+	---CyberChatbotGUI/						**Part 2 - WPF GUI application
+		---App.xaml
+			---App.xaml.cs					Application entry point
+		---MainWindow.xaml					GUI layout
+			---MainWindow.xaml.cs			GUI event handlers and chat bubble rendering
+		---ChatbotEngine.cs					Core logic: keywords, sentiment, memory, random responses
+		---AudioPlayer.cs					Voice greeting playback
+		---CyberChatbotGUI.csproj
+		---CyberWelcome.wav
+	---.github/
+		---workflows/
+			---ci.yml						Github actions CI pipeline
+	---global.json							Pins the .NET SDK version
+	---README.md
+	---gitignore
+
+#Requirements
+- .NET SDK 10.0 or higher
+- Windows operating system (required for System.Media.SoundPlayer)
+- Visual Studio 2022/2026, or any C# IDE
+- Git for version control
+
+#Installation
+Clone the repository:
+git clone https://github.com/ElomeGA04/CyberChatbot.git
+cd CyberChatbot
+
+Running the Part 1 Console Application:
+cd CyberChatbot
+dotnet run
+
+Running the Part 2 WPF Application:
+cd CyberChatbotGUI
+dotnet run
+-Alternatively, open CyberChatbotGUI.csproj in Visual Studio and press F5
+
+#How to use
+1. When the application starts, the voice greeting plays, and the ASCII art logo appears in the header
+2. Enter your name when prompted.
+3. Ask questions about any of the following topics:
+   - password
+   - phishing
+   - safe browsing
+   - scam
+   - privacy
+4. Use the following commands to interact further:
+   - **tell me more** Continues the last topic with a new response
+   - **I'm interested in [topic]** Saves the topic to memory
+   - **what am I interested in** Recalls the saved topic
+   - **what is my name** Recalls the saved name
+   - **I'm worried about [topic]** Triggers an empathetic response
+   - **exit** Closes the conversation
+
+#Chatbot logic
+The chatbot uses a layered approach to generate responses:
+1. Sentiment detection: Runs first and produces an empathetic prefix if the user's input contains emotional keywords.
+2. Conversation flow: Checks for follow-up commands such as "tell me more" and continues the previous topic.
+3. Memory recall: Check whether the user is asking for information the bot has saved, such as their name or favourite topic.
+4. Memory storage: Saves new information when the user expresses interest in a topic
+5. Keyword recognition: Scans the input for known cybersecurity topics and returns a random response from that topic's list.
+6. Fallback: Provides a helpful message with topic suggestions if no match is found.
+Topics are stored in a **Dictionary<string, List<string>>** to allow for multiple responses per topic and fast keyword lookup. A single **Random** instance is used for all random selections.
+
+#Continuous integration
+This repository uses GitHub Actions for Continuous integration. The workflow is defined in **.github/workflows/ci.yml** and runs on every push and pull request to the **master** branch.
+The workflow performs the following steps:
+1. Checks out the repository code
+2. Sets up the .NET SDK (version 10.0.x)
+3. Restores NuGet dependencies (dotnet restore)
+4. Builds the project in Release configuration (dontnet build --configuration Release)
+5. Checks for syntax errors in Debug configuration
+The CI pipeline ensures that the project remains in a buildable state at all time.
+
+#Releases
+- v1.0 - Part 1: Console chatbot wit voice greeting, ASCII art, and basic keyword responses
+- v2.0 - Part 2: WPF GUI chatbot with sentiment detection, memory recall, and random responses
+
+#Video presentation: Unlisted Youtube Link
+- Part 1 - Console Chatbot: https://youtu.be/bAEvqBl0ziE
+- Part 2 - GUI Chatbot:
+
+The Part 2 video covers:
+1. Live demonstration of the GUI, voice greeting, and chat flow
+2. Code structure and class responsibilities
+3. Sentiment detection and memory recall in action
+4. GitHub commit history, CI workflow, and releases
+
 # References
 Microsoft Corporation (2026) System.Media Namespace. 
 Available at: https://docs.microsoft.com/en-us/dotnet/api/system.media (Accessed: 9 September 2026).
@@ -142,3 +259,9 @@ Available at: https://docs.microsoft.com/en-us/dotnet/api/system.console (Access
 Stack Overflow (2026) How to add a typing effect in C# console application. 
 Available at: https://stackoverflow.com/questions/[link] (Accessed: 9 September 2026).
 The Independent Institute of Education (2026) Programming 2A: PROG6221/w Study Guide. Cape Town: IIE.
+
+#References Part 2
+GitHub, 2026. GitHub Actions Documentation. Available at: https://docs.github.com/en/actions
+Microsoft Corporation, 2026. System.Media Namespace. Available at: https://docs.microsoft.com/en-us/dotnet/api/system.media
+Microsoft Corporation, 2026. Windows Presentation Foundation (WPF). Available at: https://docs.microsoft.com/en-us/dotnet/desktop/wpf/
+The Independent Institute of Education, 2026. Programming 2A: PROG6221/w Study Guide. Cape Town: IIE.
