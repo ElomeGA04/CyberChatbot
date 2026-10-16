@@ -281,7 +281,7 @@ The CI pipeline ensures the project remains in a buildable state at all times.
 
 # Video presentation: Unlisted YouTube Link
 - Part 1 - Console Chatbot: https://youtu.be/bAEvqBl0ziE
-- Part 2 - GUI Chatbot:
+- Part 2 - GUI Chatbot: https://youtu.be/sdLOyV6P7mY
 
 The Part 1 video demonstrates:
 
