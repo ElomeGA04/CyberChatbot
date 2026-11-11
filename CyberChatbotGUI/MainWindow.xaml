@@ -8,92 +8,129 @@
         WindowStartupLocation="CenterScreen"
         FontFamily="Segoe UI">
 
-    <Grid Margin="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Grid Margin="10">
+        <!--TabControl is used to hold the applications different features -->
+        <TabControl x:Name="MainTabControl"
+                    Background="Transparent"
+                    BorderThickness="0">
+            
+            <!-- TAB 1: Existing chat functionality -->
+            <TabItem Header="Chat" 
+                     Foreground="Black"
+                     FontWeight="Bold">
+                <Grid Background="#1E1E1E">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    
+                    <!--ASCII Art Header -->
+                    <Border Grid.Row="0"
+                            Background="#2D2D2D"
+                            Padding="15"
+                            CornerRadius="8"
+                            Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock x:Name="AsciiArtTextBlock"
+                                       FontFamily="Consolas"
+                                       Foreground="#FF6B6B"
+                                       FontWeight="Bold"
+                                       FontSize="10"
+                                       TextAlignment="Center"/>
+                            <TextBlock Text="Your Personal Cyber Safety Assistant"
+                                       Foreground="#AAAAAA"
+                                       FontSize="13"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!--Chat History -->
+                    <Border Grid.Row="1"
+                            Background="#252525"
+                            CornerRadius="8"
+                            Margin="0,0,0,12"
+                            Padding="10">
+                        <ScrollViewer x:Name="ChatScrollViewer"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel x:Name="ChatStackPanel"/>
+                        </ScrollViewer>
+                    </Border>
+                    
+                    <!--User Input Area -->
+                    <DockPanel Grid.Row="2"
+                               LastChildFill="True">
+                        <Button x:Name="ExitButton"
+                                DockPanel.Dock="Right"
+                                Content="EXIT"
+                                Height="45"
+                                Width="80"
+                                Margin="10,0,0,0"
+                                FontWeight="Bold"
+                                Background="#444444"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="ExitButton_Click"/>
 
-        <Border Grid.Row="0"
-                Background="#2D2D2D"
-                Padding="15"
-                CornerRadius="8"
-                Margin="0,0,0,12">
-            <StackPanel>
-                <Viewbox MaxHeight="90"
-                         Stretch="Uniform">
-                    <TextBlock x:Name="AsciiArtTextBlock"
-                               FontFamily="Consolas"
-                               Foreground="#FF6B6B"
-                               FontWeight="Bold"
-                               FontSize="10"
-                               TextAlignment="Center"
-                               xml:space="preserve"/>
-                </Viewbox>
+                        <Button x:Name="SendButton"
+                                DockPanel.Dock="Right"
+                                Content="SEND"
+                                Height="45"
+                                Width="100"
+                                Margin="10,0,0,0"
+                                FontWeight="Bold"
+                                Background="#FF6B6B"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="SendButton_Click"/>
 
-                <TextBlock Text="Your personal Cyber Safety Assistant"
-                           Foreground="#AAAAAA"
-                           FontSize="13"
-                           HorizontalAlignment="Center"
-                           Margin="0,8,0,0"/>
-            </StackPanel>
-
-        </Border>
-
-        <Border Grid.Row="1"
-                Background="#252525"
-                CornerRadius="8"
-                Margin="0,0,0,12"
-                Padding="10">
-            <ScrollViewer x:Name="ChatScrollViewer"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled">
-                <StackPanel x:Name="ChatStackPanel"/>
-
-            </ScrollViewer>
-
-        </Border>
-
-        <DockPanel Grid.Row="2" LastChildFill="True">
-            <Button x:Name="ExitButton"
-                        DockPanel.Dock="Right"
-                        Content="EXIT"
-                        Height="45" 
-                        Width="80" 
-                        Margin="10,0,0,0"
-                        FontWeight="Bold" 
-                        FontSize="13"
-                        Background="#444444" 
-                        Foreground="White"
-                        BorderThickness="0" 
-                        Cursor="Hand"
-                        Click="ExitButton_Click"/>
-            <Button x:Name="SendButton"
-                        DockPanel.Dock="Right"
-                        Content="SEND"
-                        Height="45" 
-                        Width="100" 
-                        Margin="10,0,0,0"
-                        FontWeight="Bold" 
-                        FontSize="13"
-                        Background="#FF6B6B" 
-                        Foreground="White"
-                        BorderThickness="0" 
-                        Cursor="Hand"
-                        Click="SendButton_Click"/>
-            <TextBox x:Name="UserInputBox"
-                         Height="45" 
-                         FontSize="14"
-                         VerticalContentAlignment="Center"
-                         Padding="12,0"
-                         Background="#3D3D3D" 
-                         Foreground="White"
-                         CaretBrush="#FF6B6B"
-                         BorderBrush="#FF6B6B" 
-                         BorderThickness="2"
-                         KeyDown="UserInputBox_KeyDown"/>
-        </DockPanel>
+                        <TextBox x:Name="UserInputBox"
+                                 Height="45"
+                                 FontSize="14"
+                                 VerticalContentAlignment="Center"
+                                 Padding="12,0"
+                                 Background="#3D3D3D"
+                                 Foreground="White"
+                                 CaretBrush="#FF6B6B"
+                                 BorderBrush="#FF6B6B"
+                                 BorderThickness="2"
+                                 KeyDown="UserInputBox_KeyDown"/>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+            
+            <!--TAB 2: Task Assistant functionality -->
+            <TabItem Header="Task Assistant"
+                     Foreground="Black"
+                     FontWeight="Bold">
+                <Grid Background="#1E1E1E">
+                    <TextBlock Text="Task Assistant will go here"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="20"/>
+                </Grid>
+            </TabItem>
+            
+            <!--TAB 3: Cybersecurity quiz functionality -->
+            <TabItem Header="Cybersecurity Quiz"
+                     Foreground="Black"
+                     FontWeight="Bold">
+                <Grid Background="#1E1E1E">
+                    <TextBlock Text="Cybersecurity Quiz will go here"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="20"/>
+                </Grid>
+            </TabItem>
+            
+        </TabControl>
     </Grid>
 </Window>
 

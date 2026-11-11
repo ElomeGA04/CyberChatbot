@@ -87,7 +87,7 @@ namespace CyberChatbotGUI
         /// Processes the user's input and returns an appropriate reply.
         public string GetResponse(string userInput)
         {
-            ///Normalizes input: lovercase + trim for case- insensitive matching
+            ///Normalizes input: lowercase + trim for case- insensitive matching
             string question = userInput.ToLower().Trim();
 
             ///Detects emotional tone and build a tonal prefix for the reply
@@ -96,7 +96,7 @@ namespace CyberChatbotGUI
             if (prefix != "") prefix += "\n\n";
 
             /// CONVERSATIONAL FLOW: "tell me more"
-            /// Continue th eprevious topic instead of starting a new one.
+            /// Continue the previous topic instead of starting a new one.
             if (question.Contains("tell me more") ||
                question.Contains("explain more") ||
                question.Contains("another tip") ||
@@ -198,7 +198,7 @@ namespace CyberChatbotGUI
         /// returns the detected mood: "worried", "curious", "frustrated", or "neutral".
         private string DetectSentiment(string input)
         {
-            ///Worried: fear, anxienty, unease
+            ///Worried: fear, anxiety, unease
             if (input.Contains("worried") || input.Contains("scared") ||
                 input.Contains("nervous") || input.Contains("anxious") ||
                 input.Contains("afraid"))
@@ -225,7 +225,7 @@ namespace CyberChatbotGUI
         }
 
         /// SENTIMENT RESPONSES
-        /// Multiple empathetic prefixes per mood produce natural variation
+        /// One empathetic prefixes per mood produce natural variation
         
         private string GetSentimentPrefix(string sentiment)
         {

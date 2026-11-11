@@ -39,7 +39,7 @@ namespace CyberChatbotGUI
 
         /// STARTUP METHODS
         /// Sets the ASCII art into the header from code-behind.
-        /// Uses a raw string literal (@) so line breaks are preserved exactly.
+        /// Uses a verbatim string (@) so line breaks are preserved exactly.
         private void LoadAsciiArt()
         {
             AsciiArtTextBlock.Text =
@@ -151,8 +151,8 @@ namespace CyberChatbotGUI
             AddChatBubble("YOU", message, "#4FC3F7", HorizontalAlignment.Right);
         }
 
-        /// Creates and append a styled chat bubble to te chat panel
-        /// The bubble is aligned left or right depending on who sent it and has a colored bottom border tha matched the sender's accent.
+        /// Creates and append a styled chat bubble to the chat panel
+        /// The bubble is aligned left or right depending on who sent it and has a colored bottom border that matched the sender's accent.
         private void AddChatBubble(string sender, string message, string accentColor, HorizontalAlignment alignment)
         {
             ///Outer container
