@@ -14,6 +14,12 @@ namespace CyberChatbotGUI
     /// (Button clicks, showing text, etc. are handled in the XAML file and associated event handlers.)
     public partial class MainWindow : Window
     {
+        ///Repository handles all communication with MySql database
+        ///We instantiate it once here so it is ready whenever we need to save oload tasks
+        private readonly TaskRepository _taskRepo = new TaskRepository();
+
+        ///ObservableCollection automatically updates the UI (DataGrid) whenever items are added, removed, or modified
+        private System.Collections.ObjectModel.ObservableCollection<SecurityTask> _tasksList = new System.Collections.ObjectModel.ObservableCollection<SecurityTask>();
         /// FIELDS
         /// The chatbots's brain: Handles all response logic.
         private readonly ChatbotEngine _engine = new ChatbotEngine();
@@ -35,6 +41,110 @@ namespace CyberChatbotGUI
             LoadAsciiArt();
             PlayVoiceGreeting();
             ShowInitialWelcome();
+            LoadTasks(); //Load any tasks that were previously saved in the database so they appaer as soon as the user opens the Task tab.
+
+
+            ///TASK ASSISTANT LOGIC (DATABASE)
+            ///Fetches all tasks from MySql database and displays them in te DataGrid
+            ///Wrapped in a try-catch block to prevent the app from crashing if the database is offline.
+
+            private async void LoadTasks()
+            {
+                try
+                {
+                    //Ask the repository to fetch all tasks from the database
+                    var tasksFromDb = await _taskRepo.GetAllTasksAsync();
+
+                    //Clear the current local list and replace it with the fresh database data
+                    _tasksList.Clear();
+                    foreach(var task in tasksFromDb)
+                    {
+                        _tasksList.Add(task);
+                    }
+
+                    //Bind the list to the DataGrid so the user can see the tasks
+                    TasksDataGrid.ItemsSource = _tasksList;
+                }
+                catch (Exception ex)
+                    {
+                        MessageBox.Show("Could not load tasks from database: " + ex.Message);
+                    }
+                
+            }
+        }
+
+        /// Triggered when the user clicks "Add task".
+        /// Validates input, creates a new task, saves it to MySql, and refreshes the UI.
+        
+        private async void AddTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 1. Validation: Ensure the user actually typed a title
+            if (string.IsNullOrWhiteSpace(TaskTitleBox.Text))
+            {
+                MessageBox.Show("Please enter a task title before adding a task.");
+                return;
+            }
+
+            // 2. Create the new task object using the data from the textboxes
+            var newTask = new SecurityTask
+            {
+                Title = TaskTitleBox.Text,
+                Description = TaskDescBox.Text,
+                IsCompleted = false
+            };
+
+            // 3. Parse the reminder. If the user typed a number (e.g., "3"), set the reminder date to 3 days from today.
+            if (int.TryParse(TaskReminderBox.Text, out int days))
+            {
+                newTask.ReminderDate = DateTime.Now.AddDays(days);
+
+            }
+
+            try
+            {
+                // 4. Send the task to the TaskRepository to be saved in MySql
+                await _taskRepo.AddTaskAsync(newTask);
+
+                // 5. Refresh the DataGrid so the new task appears immediately
+                LoadTasks();
+
+                // 6. Clear the textboxes so the user can easily add another task
+                TaskTitleBox.Clear();
+                TaskDescBox.Clear();
+                TaskReminderBox.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving task: " + ex.Message);
+            }
+        }
+
+        ///Triggered when the user clicks the green checkmark button.
+        ///Marks the selected task as completed in the database.
+        
+        private async void MarkCompleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            // btn.DataContext holds the specific SecurityTask for that row
+            if(sender is Button btn && btn.DataContext is SecurityTask task)
+            {
+                await _taskRepo.MarkCompleteAsync(task.Id); // Send the task's ID to the Database to update its 'is_completed'
+
+                LoadTasks(); //Refresh the grid to show the task is now complete
+            }
+        }
+
+        ///Triggered when the user clicks the red X button.
+        /// Permanently deletes the selected task from the database
+        
+        private async void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            //We find the specific task attached to the button that was clicked
+            if (sender is Button btn && btn.DataContext is SecurityTask task)
+            {
+                await _taskRepo.DeleteTaskAsync(task.Id); // Send the task's ID to the database to be deleted
+
+                LoadTasks(); //Refresh the grid to remove the deleted task from the UI
+            }
         }
 
         /// STARTUP METHODS

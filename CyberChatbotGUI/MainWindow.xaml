@@ -108,12 +108,113 @@
             <TabItem Header="Task Assistant"
                      Foreground="Black"
                      FontWeight="Bold">
-                <Grid Background="#1E1E1E">
-                    <TextBlock Text="Task Assistant will go here"
-                               Foreground="White"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="20"/>
+                <Grid Background="#1E1E1E"
+                      Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            Background="#2D2D2D"
+                            Padding="15"
+                            CornerRadius="8"
+                            Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="Add a Cybersecurity Task"
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="Task Title:"
+                                       Foreground="LightGray"
+                                       Margin="0,5,0,2"/>
+                            <TextBox x:Name="TaskTitleBox"
+                                     Height="30"
+                                     Background="#3D3D3D"
+                                     Foreground="White"
+                                     BorderBrush="#FF6B6B"/>
+                            <TextBlock Text="Description:"
+                                       Foreground="LightGray"
+                                       Margin="0,1,0,2"/>
+                            <TextBox x:Name="TaskDescBox"
+                                     Height="30"
+                                     Background="#3D3D3D"
+                                     Foreground="White"
+                                     BorderBrush="#FF6B6B"/>
+                            <TextBlock Text="Reminder (Days from now, e.g., '3'):"
+                                       Foreground="LightGray"
+                                       Margin="0,10,0,2"/>
+                            <TextBox x:Name="TaskReminderBox"
+                                     Height="30"
+                                     Width="200"
+                                     HorizontalAlignment="Left"
+                                     Background="#3D3D3D"
+                                     Foreground="White"
+                                     BorderBrush="#FF6B6B"/>
+                            <Button x:Name="AddTaskButton"
+                                    Content="Add Task"
+                                    Height="35"
+                                    Width="100"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,15,0,0"
+                                    Background="#4CAF50"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Cursor="Hand"
+                                    Click="AddTaskButton_Click"/>
+                        </StackPanel>
+                    </Border>
+
+                    <DataGrid Grid.Row="1"
+                              x:Name="TasksDataGrid"
+                              Background="#252525"
+                              Foreground="White"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Title"
+                                                Binding="{Binding Title}"
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Description"
+                                                Binding="{Binding Description}"
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Reminder"
+                                                Binding="{Binding ReminderDate, StringFormat='{}{0:dd MMM yyyy}'}"
+                                                Width="120"/>
+                            <DataGridTextColumn Header="Done"
+                                                Binding="{Binding IsCompleted}"
+                                                Width="60"/>
+                            <DataGridTemplateColumn Header="Actions"
+                                                Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="✔"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Margin="2"
+                                                    Background="#4CAF50"
+                                                    Foreground="White"
+                                                    FontWeight="Bold"
+                                                    Cursor="Hand"
+                                                    Click="MarkTaskDoneButton_Click"/>
+                                            <Button Content="❌"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Margin="2"
+                                                    Background="#FF6B6B"
+                                                    Foreground="White"
+                                                    FontWeight="Bold"
+                                                    Cursor="Hand"
+                                                    Click="DeleteTaskButton_Click"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             
