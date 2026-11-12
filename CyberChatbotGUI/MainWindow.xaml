@@ -170,6 +170,10 @@
                               x:Name="TasksDataGrid"
                               Background="#252525"
                               Foreground="White"
+                              RowBackground="#2D2D2D"
+                              AlternatingRowBackground="#333333"
+                              HorizontalGridLinesBrush="#444444"
+                              VerticalGridLinesBrush="#444444"
                               AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               RowHeaderWidth="0">
@@ -199,7 +203,7 @@
                                                     Foreground="White"
                                                     FontWeight="Bold"
                                                     Cursor="Hand"
-                                                    Click="MarkTaskDoneButton_Click"/>
+                                                    Click="MarkCompleteButton_Click"/>
                                             <Button Content="❌"
                                                     Width="30"
                                                     Height="30"
