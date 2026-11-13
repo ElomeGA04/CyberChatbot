@@ -29,7 +29,6 @@ namespace CyberChatbotGUI
         /// True once the user has entered their name.
         private bool _nameCaptured = false;
 
-        /// 
         private QuizEngine _quizEngine;
 
         /// Decorative divider string for section header.
@@ -119,7 +118,7 @@ namespace CyberChatbotGUI
         ///1. Name capture
         ///2. Farewell
         ///3. Chatbot response
-        private async Task ProcessUserInput()
+        private async void ProcessUserInput()
         {
             string input = UserInputBox.Text.Trim();
 
@@ -287,9 +286,9 @@ namespace CyberChatbotGUI
             };
 
             // 3. Parse the reminder. If the user typed a number (e.g., "3"), set the reminder date to 3 days from today.
-            if (int.TryParse(TaskReminderBox.Text, out int days))
+            if (TaskReminderDatePicker.SelectedDate.HasValue)
             {
-                newTask.ReminderDate = DateTime.Now.AddDays(days);
+                newTask.ReminderDate = TaskReminderDatePicker.SelectedDate.Value;
 
             }
 
@@ -304,7 +303,7 @@ namespace CyberChatbotGUI
                 // 6. Clear the textboxes so the user can easily add another task
                 TaskTitleBox.Clear();
                 TaskDescBox.Clear();
-                TaskReminderBox.Clear();
+                TaskReminderDatePicker.SelectedDate = null;
             }
             catch (Exception ex)
             {
