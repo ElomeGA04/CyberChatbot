@@ -17,8 +17,13 @@ namespace CyberChatbotGUI
         /// The topic the user said they are interested in.
         public string FavouriteTopic { get; set; } = "";
 
+        ///Used for the chatbot to understand commands
+        public ActivityLog BotActivityLog { get; set; } = new ActivityLog();
+
         /// Most recently discussed topic, used for 'tell me more'.
         private string _lastTopic = "";
+
+
 
 
         ///RESPONSE DATA
@@ -89,6 +94,27 @@ namespace CyberChatbotGUI
         {
             ///Normalizes input: lowercase + trim for case- insensitive matching
             string question = userInput.ToLower().Trim();
+
+            
+
+            //NLP: TASK DETECTION (PART 3)
+            if (question.Contains("remind me to") || question.Contains("add a task"))
+            {
+                //Extract the task from the sentence
+                string taskTitle = question.Replace("remind me to", "").Replace("add a task", "").Trim();
+
+                //Log the action
+                BotActivityLog.AddEntry($"NLP detected task request: '{taskTitle}'");
+
+                //We return a special code that the MainWindow will catch and process
+                return $"NLP_TASK:{taskTitle}";
+            }
+
+            // NLP: SHOW LOG
+            if(question.Contains("show activity log") || question.Contains("what have you done"))
+                {
+                    return BotActivityLog.GetRecentLog();
+                }
 
             ///Detects emotional tone and build a tonal prefix for the reply
             string sentiment = DetectSentiment(question);

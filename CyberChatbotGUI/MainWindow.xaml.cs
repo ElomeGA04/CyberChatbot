@@ -119,7 +119,7 @@ namespace CyberChatbotGUI
         ///1. Name capture
         ///2. Farewell
         ///3. Chatbot response
-        private void ProcessUserInput()
+        private async Task ProcessUserInput()
         {
             string input = UserInputBox.Text.Trim();
 
@@ -148,7 +148,28 @@ namespace CyberChatbotGUI
 
             ///Get the engine's response and display it
             string response = _engine.GetResponse(input);
-            AddBotMessage(response);
+
+            //Checks if the bot detected an NLP task command 
+            if (response.StartsWith("NLP_TASK:"))
+            {
+                string extractedTask = response.Replace("NLP_TASK:", "");
+
+                //Creates the task automatically
+                var newTask = new SecurityTask { Title = extractedTask, IsCompleted = false };
+
+                //Save to database using your existing repo
+                await _taskRepo.AddTaskAsync(newTask);
+                _engine.BotActivityLog.AddEntry($"Task added via UI: '{newTask.Title}'");
+                LoadTasks(); //Refreshes the UI table
+
+                AddBotMessage($"Got it! I've added '{extractedTask}' to your Task Assistant.");
+            }
+            else
+            {
+                //Normal chat response
+                AddBotMessage(response);
+            }
+            
         }
 
         /// CHAT BUBBLE RENDERING
@@ -323,6 +344,7 @@ namespace CyberChatbotGUI
         /// PART 3: QUIZ LOGIC
         private void StartQuiz_Click(object sender, RoutedEventArgs e)
         {
+            _engine.BotActivityLog.AddEntry("User started the Cybersecurity Quiz");
             //Initialize a fresh quiz engine
             _quizEngine = new QuizEngine();
 
@@ -437,5 +459,11 @@ namespace CyberChatbotGUI
                 FinalMessageText.Text = _quizEngine.GetFinalMessage();
             }
         }
+            private void ShowLogButton_Click(object sender, RoutedEventArgs e)
+            {
+                AddUserMessage("[Opened Activity Log]");
+                AddBotMessage(_engine.BotActivityLog.GetRecentLog());
+            }
+        }
     }
-}
+

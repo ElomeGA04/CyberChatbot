@@ -88,7 +88,18 @@
                                 BorderThickness="0"
                                 Cursor="Hand"
                                 Click="SendButton_Click"/>
-
+                        <Button x:Name="ShowLogButton"
+                                DockPanel.Dock="Right"
+                                Content="LOG"
+                                Height="45"
+                                Width="60"
+                                Margin="10,0,0,0"
+                                FontWeight="Bold"
+                                Background="#2D2D2D"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="ShowLogButton_Click"/>
                         <TextBox x:Name="UserInputBox"
                                  Height="45"
                                  FontSize="14"
