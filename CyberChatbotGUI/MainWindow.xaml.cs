@@ -15,7 +15,7 @@ namespace CyberChatbotGUI
     public partial class MainWindow : Window
     {
         ///Repository handles all communication with MySql database
-        ///We instantiate it once here so it is ready whenever we need to save oload tasks
+        ///We instantiate it once here so it is ready whenever we need to save or load tasks
         private readonly TaskRepository _taskRepo = new TaskRepository();
 
         ///ObservableCollection automatically updates the UI (DataGrid) whenever items are added, removed, or modified
