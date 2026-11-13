@@ -381,25 +381,30 @@ namespace CyberChatbotGUI
                 var q = _quizEngine.GetCurrentQuestion();
 
                 bool isCorrect = _quizEngine.SubmitAnswer(selectedOption);
-
+                
+                // 1. Disable all buttons they can't double-click
                 OptionAButton.IsEnabled = false;
                 OptionBButton.IsEnabled = false;
                 OptionCButton.IsEnabled = false;
                 OptionDButton.IsEnabled = false;
 
+                // 2. Adds the colors!
                 if (isCorrect)
                 {
+                    //If they got it right: Turns the clicked button green
                     FeedbackTextBlock.Foreground = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
-                    FeedbackTextBlock.Text = "Correct!" + q.Explanation;
+                    FeedbackTextBlock.Text = "✔️ Correct!" + q.Explanation;
                     btn.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
                 }
 
                 else
                 {
+                    //If they got it wrng: Turns the clicked button red
                     FeedbackTextBlock.Foreground = (Brush)new BrushConverter().ConvertFromString("#FF6B6B");
-                    FeedbackTextBlock.Text = $"Incorrect. Correct answer: {q.CorrectAnswer}. {q.Explanation}";
+                    FeedbackTextBlock.Text = $"❌ Incorrect. Correct answer: {q.CorrectAnswer}. {q.Explanation}";
                     btn.Background = (Brush)new BrushConverter().ConvertFromString("#FF6B6B");
 
+                    //Highlights the actual correct answer in Green
                     if (q.CorrectAnswer == "A") OptionAButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
                     if (q.CorrectAnswer == "B") OptionBButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
                     if (q.CorrectAnswer == "C") OptionCButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");

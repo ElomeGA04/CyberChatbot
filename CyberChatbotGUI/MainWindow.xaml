@@ -247,7 +247,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding BorderThickness}" 
+                                    <Border Background="{TemplateBinding Background}" 
                                             BorderBrush="{TemplateBinding BorderBrush}" 
                                             BorderThickness="{TemplateBinding BorderThickness}" 
                                             CornerRadius="4">
@@ -270,6 +270,14 @@
                 </TabItem.Resources>
                 <Grid Background="#1E1E1E">
                     
+                    <!--HEADER-->
+                    <TextBlock Text="Cyber Challenge: Mini-Quiz Game"
+                               Foreground="#FF6B6B"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,20,0,0"/>
+
                     <!--PANEL 1: Start screen-->
                     <StackPanel x:Name="QuizStartPanel"
                                 VerticalAlignment="Center"
