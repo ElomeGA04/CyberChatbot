@@ -238,11 +238,159 @@
                      Foreground="Black"
                      FontWeight="Bold">
                 <Grid Background="#1E1E1E">
-                    <TextBlock Text="Cybersecurity Quiz will go here"
-                               Foreground="White"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="20"/>
+                    
+                    <!--PANEL 1: Start screen-->
+                    <StackPanel x:Name="QuizStartPanel"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="Cybersecurity Knowledge Quiz"
+                                   Foreground="White"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,10"/>
+                        <TextBlock Text="Test your knowledge with 14 questions!"
+                                   Foreground="#AAAAAA"
+                                   FontSize="14"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,20"/>
+                        <Button Content="START QUIZ"
+                                Width="150"
+                                Height="45"
+                                Background="#FF6B6B"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                FontSize="14"
+                                Cursor="Hand"
+                                BorderThickness="0"
+                                Click="StartQuiz_Click"/>
+                    </StackPanel>
+                    
+                    <!--PANEL 2: Question screen (its hidden at first)-->
+                    <Grid x:Name="QuizQuestionPanel"
+                          Visibility="Collapsed"
+                          Margin="40"
+                          VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!--Question Number and text-->
+                        <TextBlock x:Name="QuestionProgressText"
+                                   Foreground="White"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Grid.Row="1"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,20"/>
+                        
+                        <!--Answer options-->
+                        <StackPanel Grid.Row="2">
+                            <Button x:Name="OptionAButton"
+                                    Content="Option A"
+                                    Tag="A"
+                                    Height="45"
+                                    Margin="0,5,0,5"
+                                    Background="#2D2D2D"
+                                    Foreground="White"
+                                    HorizontalContentAlignment="Left"
+                                    Padding="15,0"
+                                    Cursor="Hand"
+                                    Click="AnswerButton_Click"/>
+                            <Button x:Name="OptionBButton"
+                                    Content="Option B"
+                                    Tag="B"
+                                    Height="45"
+                                    Margin="0,5,0,5"
+                                    Background="#2D2D2D"
+                                    Foreground="White"
+                                    HorizontalContentAlignment="Left"
+                                    Padding="15,0"
+                                    Cursor="Hand"
+                                    Click="AnswerButton_Click"/>
+                            <Button x:Name="OptionCButton"
+                                    Content="Option C"
+                                    Tag="C"
+                                    Height="45"
+                                    Margin="0,5,0,5"
+                                    Background="#2D2D2D"
+                                    Foreground="White"
+                                    HorizontalContentAlignment="Left"
+                                    Padding="15,0"
+                                    Cursor="Hand"
+                                    Click="AnswerButton_Click"/>
+                            <Button x:Name="OptionDButton"
+                                    Content="Option D"
+                                    Tag="D"
+                                    Height="45"
+                                    Margin="0,5,0,5"
+                                    Background="#2D2D2D"
+                                    Foreground="White"
+                                    HorizontalContentAlignment="Left"
+                                    Padding="15,0"
+                                    Cursor="Hand"
+                                    Click="AnswerButton_Click"/>
+                            
+                        </StackPanel>
+                        
+                        <!--Feedback and next button-->
+                        <StackPanel Grid.Row="3" Margin="0,20,0,0">
+                            <TextBlock x:Name="FeedbackTextBlock"
+                                       Foreground="#4CAF50"
+                                       FontSize="14"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,15"/>
+                            <Button x:Name="NextQuestionButton"
+                                    Content="NEXT QUESTION"
+                                    Width="150"
+                                    Height="40"
+                                    Background="#FF6B6B"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Cursor="Hand"
+                                    BorderThickness="0"
+                                    HorizontalAlignment="Right"
+                                    Visibility="Collapsed"
+                                    Click="NextQuestion_Click"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <!--PANEL 3: END SCREEN (its hidden at first)-->
+                    <StackPanel x:Name="QuizEndPanel"
+                                Visibility="Collapsed"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="Quiz Complete!"
+                                   Foreground="White"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,10"/>
+                        <TextBlock Text="FinalScoreText"
+                                   Foreground="#FF6B6B"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,10"/>
+                        <TextBlock Text="FinalMessageText"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   MaxWidth="400"
+                                   Margin="0,0,0,20"/>
+                        <Button Content="PLAY AGAIN"
+                                Width="150"
+                                Height="45"
+                                Cursor="Hand"
+                                BorderThickness="0"
+                                Click="StartQuiz_Click"/>
+
+                    </StackPanel>
+                    
                 </Grid>
             </TabItem>
             
