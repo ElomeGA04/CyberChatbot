@@ -381,7 +381,7 @@ This repository uses GitHub Actions for Continuous Integration. Every push trigg
 - v3.0 - Part 3: Final POE (Task Assistant, Quiz, NLP, Activity Log)
 
 # Video Presentation
-Unlisted YouTube link: 
+Unlisted YouTube link: https://youtu.be/gZXc8Dq5bz0
 The video demonstrates:
 1. The chat interface, sentiment detection, and memory.
 2. The Task Assistant saving to MySQL and retrieving after a restart.
