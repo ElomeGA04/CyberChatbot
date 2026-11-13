@@ -177,6 +177,17 @@
                               AutoGenerateColumns="False"
                               CanUserAddRows="False"
                               RowHeaderWidth="0">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="AntiqueWhite"/>
+                                <Setter Property="Foreground" Value="Tomato"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Padding" Value="8,5"/>
+                                <Setter Property="BorderBrush" Value="#444444"/>
+                                <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title"
                                                 Binding="{Binding Title}"
@@ -196,7 +207,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="✔"
-                                                    Width="30"
+                                                    Width="35"
                                                     Height="30"
                                                     Margin="2"
                                                     Background="#4CAF50"
@@ -205,7 +216,7 @@
                                                     Cursor="Hand"
                                                     Click="MarkCompleteButton_Click"/>
                                             <Button Content="❌"
-                                                    Width="30"
+                                                    Width="35"
                                                     Height="30"
                                                     Margin="2"
                                                     Background="#FF6B6B"
