@@ -237,6 +237,37 @@
             <TabItem Header="Cybersecurity Quiz"
                      Foreground="Black"
                      FontWeight="Bold">
+                <TabItem.Resources>
+                    <Style x:Key="QuizOptionStyle"
+                           TargetType="Button">
+                        <Setter Property="Background" Value="#2D2D2D"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderBrush" Value="#444444"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding BorderThickness}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" 
+                                            CornerRadius="4">
+                                        <ContentPresenter HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center"
+                                                          Margin="15,0,0,0"/>
+
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter Property="Opacity"
+                                        Value="0.7"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Resources>
                 <Grid Background="#1E1E1E">
                     
                     <!--PANEL 1: Start screen-->
@@ -280,13 +311,18 @@
                         
                         <!--Question Number and text-->
                         <TextBlock x:Name="QuestionProgressText"
+                                   Foreground="#AAAAAA"
+                                   FontSize="12"
+                                   Grid.Row="0"
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="QuestionTextBlock"
                                    Foreground="White"
                                    FontSize="18"
                                    FontWeight="Bold"
                                    Grid.Row="1"
                                    TextWrapping="Wrap"
                                    Margin="0,0,0,20"/>
-                        
+
                         <!--Answer options-->
                         <StackPanel Grid.Row="2">
                             <Button x:Name="OptionAButton"
@@ -294,10 +330,7 @@
                                     Tag="A"
                                     Height="45"
                                     Margin="0,5,0,5"
-                                    Background="#2D2D2D"
-                                    Foreground="White"
-                                    HorizontalContentAlignment="Left"
-                                    Padding="15,0"
+                                    Style="{StaticResource QuizOptionStyle}"
                                     Cursor="Hand"
                                     Click="AnswerButton_Click"/>
                             <Button x:Name="OptionBButton"
@@ -305,10 +338,7 @@
                                     Tag="B"
                                     Height="45"
                                     Margin="0,5,0,5"
-                                    Background="#2D2D2D"
-                                    Foreground="White"
-                                    HorizontalContentAlignment="Left"
-                                    Padding="15,0"
+                                    Style="{StaticResource QuizOptionStyle}"
                                     Cursor="Hand"
                                     Click="AnswerButton_Click"/>
                             <Button x:Name="OptionCButton"
@@ -316,10 +346,7 @@
                                     Tag="C"
                                     Height="45"
                                     Margin="0,5,0,5"
-                                    Background="#2D2D2D"
-                                    Foreground="White"
-                                    HorizontalContentAlignment="Left"
-                                    Padding="15,0"
+                                    Style="{StaticResource QuizOptionStyle}"
                                     Cursor="Hand"
                                     Click="AnswerButton_Click"/>
                             <Button x:Name="OptionDButton"
@@ -327,10 +354,7 @@
                                     Tag="D"
                                     Height="45"
                                     Margin="0,5,0,5"
-                                    Background="#2D2D2D"
-                                    Foreground="White"
-                                    HorizontalContentAlignment="Left"
-                                    Padding="15,0"
+                                    Style="{StaticResource QuizOptionStyle}"
                                     Cursor="Hand"
                                     Click="AnswerButton_Click"/>
                             
@@ -369,13 +393,13 @@
                                    FontWeight="Bold"
                                    HorizontalAlignment="Center"
                                    Margin="0,0,0,10"/>
-                        <TextBlock Text="FinalScoreText"
+                        <TextBlock x:Name="FinalScoreText"
                                    Foreground="#FF6B6B"
                                    FontSize="22"
                                    FontWeight="Bold"
                                    HorizontalAlignment="Center"
                                    Margin="0,0,0,10"/>
-                        <TextBlock Text="FinalMessageText"
+                        <TextBlock x:Name="FinalMessageText"
                                    Foreground="White"
                                    FontSize="16"
                                    TextAlignment="Center"

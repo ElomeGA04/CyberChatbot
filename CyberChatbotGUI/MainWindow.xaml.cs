@@ -25,10 +25,13 @@ namespace CyberChatbotGUI
         private readonly ChatbotEngine _engine = new ChatbotEngine();
 
         private readonly AudioPlayer _audio = new AudioPlayer();
-        
+
         /// True once the user has entered their name.
         private bool _nameCaptured = false;
-     
+
+        /// 
+        private QuizEngine _quizEngine;
+
         /// Decorative divider string for section header.
         private const string DIV = "==========================================================";
 
@@ -43,12 +46,9 @@ namespace CyberChatbotGUI
             ShowInitialWelcome();
             LoadTasks(); //Load any tasks that were previously saved in the database so they appaer as soon as the user opens the Task tab.
 
+            
 
-            ///TASK ASSISTANT LOGIC (DATABASE)
-            ///Fetches all tasks from MySql database and displays them in te DataGrid
-            ///Wrapped in a try-catch block to prevent the app from crashing if the database is offline.
-
-        }  
+        }
 
         /// STARTUP METHODS
         /// Sets the ASCII art into the header from code-behind.
@@ -86,7 +86,7 @@ namespace CyberChatbotGUI
         {
             AddBotMessage("WELCOME TO THE CYBERSECURITY CHATBOT SYSTEM");
             AddBotMessage(DIV);
-            AddBotMessage( "Please enter your name: ");
+            AddBotMessage("Please enter your name: ");
         }
 
         /// EVENT HANDLERS
@@ -103,8 +103,8 @@ namespace CyberChatbotGUI
         /// Fires when the user clicks the SEND button.
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-                ProcessUserInput();
-            
+            ProcessUserInput();
+
         }
 
         /// Fires when the user clicks the EXIT button.
@@ -138,7 +138,7 @@ namespace CyberChatbotGUI
                 AddBotMessage($"Nice to meet you, {_engine.UserName}! You can start asking questions about passwords, phishing, safe browsing, scams, or privacy. Type 'exit' to close.");
                 return;
             }
-            
+
             ///Exit command
             if (input.ToLower() == "exit")
             {
@@ -149,7 +149,7 @@ namespace CyberChatbotGUI
             ///Get the engine's response and display it
             string response = _engine.GetResponse(input);
             AddBotMessage(response);
-            }
+        }
 
         /// CHAT BUBBLE RENDERING
         /// Adds a bot message bubble (left-aligned, red accent).
@@ -217,6 +217,9 @@ namespace CyberChatbotGUI
             ChatScrollViewer.ScrollToEnd();
         }
 
+        ///TASK ASSISTANT LOGIC (DATABASE)
+        ///Fetches all tasks from MySql database and displays them in te DataGrid
+        ///Wrapped in a try-catch block to prevent the app from crashing if the database is offline.
         private async void LoadTasks()
         {
             try
@@ -240,11 +243,11 @@ namespace CyberChatbotGUI
             }
 
         }
-        
+
 
         /// Triggered when the user clicks "Add task".
         /// Validates input, creates a new task, saves it to MySql, and refreshes the UI.
-        
+
         private async void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
             // 1. Validation: Ensure the user actually typed a title
@@ -315,6 +318,119 @@ namespace CyberChatbotGUI
                 LoadTasks(); //Refresh the grid to remove the deleted task from the UI
             }
         }
+
+
+        /// PART 3: QUIZ LOGIC
+        private void StartQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            //Initialize a fresh quiz engine
+            _quizEngine = new QuizEngine();
+
+            QuizStartPanel.Visibility = Visibility.Collapsed;
+            QuizEndPanel.Visibility = Visibility.Collapsed;
+            QuizQuestionPanel.Visibility = Visibility.Visible;
+
+            LoadQuestion();
+        }
+
+        private void LoadQuestion()
+        {
+            var q = _quizEngine.GetCurrentQuestion();
+
+            QuestionProgressText.Text = $"Question {_quizEngine.CurrentQuestionIndex + 1} of {_quizEngine.Questions.Count}";
+            QuestionTextBlock.Text = q.QuestionText;
+
+            OptionAButton.Content = $"A) {q.OptionA}";
+            OptionBButton.Content = $"B) {q.OptionB}";
+
+            //Handle True/False questions
+            if (string.IsNullOrEmpty(q.OptionC))
+            {
+                OptionCButton.Visibility = Visibility.Collapsed;
+                OptionDButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                OptionCButton.Visibility = Visibility.Visible;
+                OptionDButton.Visibility = Visibility.Visible;
+                OptionCButton.Content = $"C) {q.OptionC}";
+                OptionDButton.Content = $"D) {q.OptionD}";
+            }
+
+            //Reset UI states
+            FeedbackTextBlock.Text = "";
+            NextQuestionButton.Visibility = Visibility.Collapsed;
+
+            OptionAButton.IsEnabled = true;
+            OptionBButton.IsEnabled = true;
+            OptionCButton.IsEnabled = true;
+            OptionDButton.IsEnabled = true;
+
+            OptionAButton.Background = (Brush)new BrushConverter().ConvertFromString("#2D2D2D");
+            OptionBButton.Background = (Brush)new BrushConverter().ConvertFromString("#2D2D2D");
+            OptionCButton.Background = (Brush)new BrushConverter().ConvertFromString("#2D2D2D");
+            OptionDButton.Background = (Brush)new BrushConverter().ConvertFromString("#2D2D2D");
+
+        }
+
+        private void AnswerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button btn)
+            {
+                string selectedOption = btn.Tag.ToString();
+                var q = _quizEngine.GetCurrentQuestion();
+
+                bool isCorrect = _quizEngine.SubmitAnswer(selectedOption);
+
+                OptionAButton.IsEnabled = false;
+                OptionBButton.IsEnabled = false;
+                OptionCButton.IsEnabled = false;
+                OptionDButton.IsEnabled = false;
+
+                if (isCorrect)
+                {
+                    FeedbackTextBlock.Foreground = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
+                    FeedbackTextBlock.Text = "Correct!" + q.Explanation;
+                    btn.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
+                }
+
+                else
+                {
+                    FeedbackTextBlock.Foreground = (Brush)new BrushConverter().ConvertFromString("#FF6B6B");
+                    FeedbackTextBlock.Text = $"Incorrect. Correct answer: {q.CorrectAnswer}. {q.Explanation}";
+                    btn.Background = (Brush)new BrushConverter().ConvertFromString("#FF6B6B");
+
+                    if (q.CorrectAnswer == "A") OptionAButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
+                    if (q.CorrectAnswer == "B") OptionBButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
+                    if (q.CorrectAnswer == "C") OptionCButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
+                    if (q.CorrectAnswer == "D") OptionDButton.Background = (Brush)new BrushConverter().ConvertFromString("#4CAF50");
+                }
+
+                NextQuestionButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void NextQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            if (_quizEngine.MoveToNextQuestion())
+            {
+                LoadQuestion();
+            }
+
+            else
+            {
+                QuizQuestionPanel.Visibility = Visibility.Collapsed;
+                QuizEndPanel.Visibility = Visibility.Visible;
+
+                //Calculates the score nd the percentage
+                int score = _quizEngine.Score;
+                int total = _quizEngine.Questions.Count;
+                double percentage = Math.Round((double)score / total * 100);
+
+                //Display the score with the percentage included
+                FinalScoreText.Text = $"You scored {score}/{total} ({percentage}%)";
+                FinalMessageText.Text = _quizEngine.GetFinalMessage();
+            }
+        }
     }
 }
-
