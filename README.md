@@ -298,14 +298,109 @@ The Part 2 video covers:
 3. Sentiment detection and memory recall in action
 4. GitHub commit history, CI workflow, and releases
 
+# CYBERSECURITY AWARENESS CHATBOT (FINAL POE)
+A comprehensive WPF (Windows Presentation Foundation) application built in C# that educates users on cybersecurity awareness. The application combines conversational AI, task management, a mini-game, and activity logging into a single, interactive desktop application.
+
+## Table of Contents
+- Features (Parts 1, 2 & 3)
+- Technologies Used
+- Database Setup (MySQL) (#database-setup-mysql)
+- Installation & Running the App
+- How to use
+- Project Structure
+- Continuous Integration & Releases
+- Video Presentation
+- References
+
+##Features
+
+###Part 3: Task Assistant, Quiz, NLP and Logs
+- **Task Assistant (MySQL Database):** Users can add, view, complete, and delete cybersecurity tasks. All tasks are saved to a local MySQL database so they persist after closing the app.
+- **Cybersecurity Mini-Game (Quiz):** A 14-Question interactive quiz featuring both multiple-choice and true/false questions. It provides immediate feedback (green/red highligting) and displays a final percentage score.
+- **NLP Simulation:** The chatbot recognizes natural language task commands. If you type *"Remind me to update my password"*, it automatically creates the task in the Task Assistant.
+- **Activity Log:** A built-in logger that tracks actions (tasks added, guiz started, NLP interactions) and displays the last 10 actions when requested via the chat or the "LOG" button.
+
+## Technologies Used
+- C# / .NET 8.0 (or 10.0)
+- WPF (Windows Presentation Foundation) for the GUI
+- MySQL Server for database storage
+- MySqlConnector (NuGet package) for C# to MySQL communication
+
+## Database Setup (MySQL)
+**N.B** The Task Assistant requires a running MySQL server to function.
+1. Open MySQL Workbench and connect to your local server.
+2. Create the database and table by running the following SQL script:
+
+```sql
+CREATE DATABASE IF NOT EXISTS cyberchatbot;
+USE cyberchatbot;
+
+CREATE TABLE IF NOT EXISTS security_tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    reminder_date DATETIME,
+    is_completed BOOLEAN DEFAULT FALSE
+);
+```
+## Installation & Running the App
+1. Clone the repository:
+   git clone https://github.com/ElomeGA04/CyberChatbot.git
+2. Open the solution file (CyberChatbotGUI.sln) in Visual Studio.
+3. Ensure the MySqlConnector NuGet package is restored.
+4. Ensure your MySQL server is running and the TaskRepository.cs connection string is configured.
+5. Press F5 to build and run the application.
+
+## How to Use
+- Chat Tab: Enter your name to start. Ask about passwords, phishing, scams, privacy, or safe browsing.
+- NLP Commands: Type '*remind me to [task]*' '*add a task [task]*' to automatically create a database task.
+- Activity Log: Type '*show activity log*' in chat, or click the LOG button next to the Send button.
+- Task Assistant Tab: Fill in the title and description, then click "Add Task". Use the green checkmark to complete a task or the red X to delete it.
+- Cybersecurity Quiz Tab: Click "START QUIZ". Select an answer to see immediate feedback, and click "NEXT QUESTION" to proceed.
+
+# PROJECT STRUCTURE
+
+CyberChatBotGUI
+	---MainWindow.xaml 			# The GUI layout (Tabs for Chat, Tasks, Quiz)
+	---MainWindow.xaml.cs		# UI event handlers, chat bubbles, and view logic
+	---ChatbotEngine.cs			# The "brain": NLP, sentiment, memory, and keyword responses
+	---TaskRespository.cs		# Handles all MySQL database CRUD operations
+	---QuizEngine.cs			# Holds the 14 quiz questions and score logic
+	---ActivityLog.cs			# Tracks and retrieves the user's recent actions
+	---SecurityTask.cs			# Model for database tasks
+	---CyberQuizQuestion.cs		# Model for quiz questions
+	---AudioPlayer.cs			# Plays the WAV voice greeting
+	---CyberWelcome.wav			# The voice greeting audio file
+
+# Continuous Integration & Releases
+This repository uses GitHub Actions for Continuous Integration. Every push triggers a build to ensure the project compiles successfully without syntax errors
+
+### Releases:
+- v1.0 - Part 1: Console Chatbot
+- v2.0 - Part 2: WPF GUI Chatbot
+- v3.0 - Part 3: Final POE (Task Assistant, Quiz, NLP, Activity Log)
+
+# Video Presentation
+Unlisted YouTube link: 
+The video demonstrates:
+1. The chat interface, sentiment detection, and memory.
+2. The Task Assistant saving to MySQL and retrieving after a restart.
+3. The NLP simulation adding a task via chat.
+4. The 14-question Cybersecurity Quiz with scoring.
+5. The Activity Log feature.
+6. A brief walkthrough of the code structure and GitHub setup.
+
 # References
 Microsoft Corporation (2026) System.Media Namespace. 
 Available at: https://docs.microsoft.com/en-us/dotnet/api/system.media (Accessed: 9 September 2026).
-Microsoft Corporation (2026) Console Class in C# . 
+Microsoft Corporation (2026) Console Class in C#. 
 Available at: https://docs.microsoft.com/en-us/dotnet/api/system.console (Accessed: 9 September 2026).
-Stack Overflow (2026) How to add a typing effect in C#console application. 
+Microsoft Corporation, 2026. Windows Presentation Foundation (WPF). Available at: https://docs.microsoft.com/en-us/dotnet/desktop/wpf/ (Accessed: 13 November 2026).
+Oracle Corporation, 2026. MySQL Documentation. Available at: https://dev.mysql.com/doc/
+Stack Overflow (2026) How to add a typing effect in C# console application. (Accessed: 13 November 2026).
 Available at: https://stackoverflow.com/questions/[link] (Accessed: 9 September 2026).
 The Independent Institute of Education (2026) Programming 2A: PROG6221/w Study Guide. Cape Town: IIE.
+GitHub, 2026. GitHub Actions Documentation. Available at: https://docs.github.com/en/actions (Accessed: 13 November 2026).
 GitHub, 2026. GitHub Actions Documentation. Available at: https://docs.github.com/en/actions (Accessed: 15 September 2026).
 Microsoft Corporation, 2026. System.Media Namespace. Available at: https://docs.microsoft.com/en-us/dotnet/api/system.media (Accessed: 15 September 2026).
 Microsoft Corporation, 2026. Windows Presentation Foundation (WPF). Available at: https://docs.microsoft.com/en-us/dotnet/desktop/wpf/ (Accessed: 15 September 2026).
